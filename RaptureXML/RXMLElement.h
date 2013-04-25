@@ -88,6 +88,9 @@
 - (double)attributeAsDouble:(NSString *)attributeName;
 - (double)attributeAsDouble:(NSString *)attributeName inNamespace:(NSString *)ns;
 
+- (RXMLElement*)append:(RXMLElement*)child;
+- (RXMLElement*)prepend:(RXMLElement*)child;
+
 - (RXMLElement *)child:(NSString *)tag;
 - (RXMLElement *)child:(NSString *)tag inNamespace:(NSString *)ns;
 

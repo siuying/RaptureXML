@@ -306,6 +306,30 @@
 
 #pragma mark -
 
+- (RXMLElement*)append:(RXMLElement*)child {
+    xmlAddChild(node_, child->node_);
+    return child;
+}
+
+- (RXMLElement*)prepend:(RXMLElement*)child {
+    xmlNodePtr cur = node_;
+    cur = cur->children;
+
+    while (cur != nil && cur->type != XML_ELEMENT_NODE) {
+        cur = cur->next;
+    }
+    
+    if (cur) {
+        xmlAddPrevSibling(cur, child->node_);
+    } else {
+        xmlAddChild(node_, child->node_);
+    }
+    return child;
+}
+
+
+#pragma mark -
+
 - (RXMLElement *)child:(NSString *)tag {
     NSArray *components = [tag componentsSeparatedByString:@"."];
     xmlNodePtr cur = node_;
@@ -545,6 +569,7 @@
 }
 
 -(void) setAttribute:(NSString*)attName inNamespace:(NSString*)ns value:(NSString*)value {
+    // search for existing namespace
     xmlNsPtr nsPtr = xmlSearchNs(self.xmlDoc.doc, node_, (const xmlChar *)[ns cStringUsingEncoding:NSUTF8StringEncoding]);
     xmlSetNsProp(node_, nsPtr, (const xmlChar *)[attName cStringUsingEncoding:NSUTF8StringEncoding], (const xmlChar *)[value cStringUsingEncoding:NSUTF8StringEncoding]);
 }
