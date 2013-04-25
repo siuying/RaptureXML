@@ -79,6 +79,7 @@
 - (NSString *)attribute:(NSString *)attributeName inNamespace:(NSString *)ns;
 - (void) setAttribute:(NSString*)attName value:(NSString*)value;
 - (void) setAttribute:(NSString*)attName inNamespace:(NSString*)ns value:(NSString*)value;
+- (void) removeAttribute:(NSString*)attName;
 
 - (NSArray *)attributeNames;
 

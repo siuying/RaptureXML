@@ -60,5 +60,21 @@
     STAssertEqualObjects(rxml[@"count"], @"2", nil);
 }
 
+- (void)testRemoveAttribute {
+    RXMLElement *rxml = [RXMLElement elementFromXMLString:attributedXML_ encoding:NSUTF8StringEncoding];
+    [rxml removeAttribute:@"count"];
+
+    NSArray *atts = [rxml attributeNames];
+    STAssertEquals(atts.count, 1U, nil);
+    
+    [rxml removeAttribute:@"style"];
+    atts = [rxml attributeNames];
+    STAssertEquals(atts.count, 0U, nil);
+    
+    // remove removed attribute has no effect
+    [rxml removeAttribute:@"style"];
+    STAssertEquals(atts.count, 0U, nil);
+}
+
 @end
 

@@ -574,6 +574,20 @@
     xmlSetNsProp(node_, nsPtr, (const xmlChar *)[attName cStringUsingEncoding:NSUTF8StringEncoding], (const xmlChar *)[value cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
+- (void) removeAttribute:(NSString*)attName {
+    xmlAttrPtr attr = xmlHasProp(node_, (const xmlChar *)[attName cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (attr != NULL) {
+        xmlRemoveProp(attr);
+    }
+}
+
+- (void) removeAttribute:(NSString*)attName  inNamespace:(NSString*)ns{
+    xmlAttrPtr attr = xmlHasNsProp(node_, (const xmlChar *)[attName cStringUsingEncoding:NSUTF8StringEncoding], (const xmlChar *)[ns cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (attr != NULL) {
+        xmlRemoveProp(attr);
+    }
+}
+
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key {
     [self setAttribute:(NSString*)key value:obj];
 }
