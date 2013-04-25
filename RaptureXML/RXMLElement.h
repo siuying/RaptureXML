@@ -77,6 +77,8 @@
 
 - (NSString *)attribute:(NSString *)attributeName;
 - (NSString *)attribute:(NSString *)attributeName inNamespace:(NSString *)ns;
+- (void) setAttribute:(NSString*)attName value:(NSString*)value;
+- (void) setAttribute:(NSString*)attName inNamespace:(NSString*)ns value:(NSString*)value;
 
 - (NSArray *)attributeNames;
 
@@ -110,6 +112,7 @@
 
 @interface RXMLElement (Subscripts)
 - (id)objectForKeyedSubscript:(id)key;
+- (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
 @end
 
 typedef void (^RXMLBlock)(RXMLElement *element);

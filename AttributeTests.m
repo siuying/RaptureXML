@@ -42,10 +42,22 @@
 
 - (void)testSubscript {
     RXMLElement *rxml = [RXMLElement elementFromXMLString:attributedXML_ encoding:NSUTF8StringEncoding];
-    NSArray *atts = [rxml attributeNames];
-    STAssertEquals(atts.count, 2U, nil);
     STAssertEqualObjects(rxml[@"count"], @"3", nil);
     STAssertEqualObjects(rxml[@"style"], @"basic", nil);
+}
+
+- (void)testSetAttribute {
+    RXMLElement *rxml = [RXMLElement elementFromXMLString:attributedXML_ encoding:NSUTF8StringEncoding];
+    STAssertEqualObjects(rxml[@"count"], @"3", nil);
+    [rxml setAttribute:@"count" value:@"2"];
+    STAssertEqualObjects(rxml[@"count"], @"2", nil);
+}
+
+- (void)testSetAttributeWithSubscript {
+    RXMLElement *rxml = [RXMLElement elementFromXMLString:attributedXML_ encoding:NSUTF8StringEncoding];
+    STAssertEqualObjects(rxml[@"count"], @"3", nil);
+    rxml[@"count"] = @"2";
+    STAssertEqualObjects(rxml[@"count"], @"2", nil);
 }
 
 @end

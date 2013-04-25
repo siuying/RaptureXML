@@ -538,4 +538,19 @@
     }
 }
 
+#pragma mark - Manipulation
+
+-(void) setAttribute:(NSString*)attName value:(NSString*)value {
+    xmlSetProp(node_, (const xmlChar *)[attName cStringUsingEncoding:NSUTF8StringEncoding], (const xmlChar *)[value cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
+-(void) setAttribute:(NSString*)attName inNamespace:(NSString*)ns value:(NSString*)value {
+    xmlNsPtr nsPtr = xmlSearchNs(self.xmlDoc.doc, node_, (const xmlChar *)[ns cStringUsingEncoding:NSUTF8StringEncoding]);
+    xmlSetNsProp(node_, nsPtr, (const xmlChar *)[attName cStringUsingEncoding:NSUTF8StringEncoding], (const xmlChar *)[value cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
+- (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key {
+    [self setAttribute:(NSString*)key value:obj];
+}
+
 @end
