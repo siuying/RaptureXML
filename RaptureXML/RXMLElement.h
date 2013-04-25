@@ -92,6 +92,24 @@
 - (RXMLElement*)append:(RXMLElement*)child;
 - (RXMLElement*)prepend:(RXMLElement*)child;
 
+/**
+ remove all children nodes
+ */
+- (void)empty;
+
+/**
+ Remove children node with tag
+ @param tag - tag to be removed
+ */
+- (void)removeChildren:(NSString*)tag;
+
+/**
+ Remove childrend node with tag and namespace
+ @param tag - tag to be removed
+ @param ns - namespace
+ */
+- (void)removeChildren:(NSString*)tag inNamespace:(NSString*)ns;
+
 - (RXMLElement *)child:(NSString *)tag;
 - (RXMLElement *)child:(NSString *)tag inNamespace:(NSString *)ns;
 

@@ -327,6 +327,30 @@
     return child;
 }
 
+- (void) empty {
+    xmlNodePtr cur = node_;
+    cur = cur->children;
+
+    while (cur != nil) {
+        xmlNodePtr next = cur->next;
+        xmlUnlinkNode(cur);
+        cur = next;
+    }
+}
+
+- (void)removeChildren:(NSString*)tag {
+    NSArray* children = [self children:tag];
+    [children enumerateObjectsUsingBlock:^(RXMLElement* elem, NSUInteger idx, BOOL *stop) {
+        xmlUnlinkNode(elem->node_);
+    }];
+}
+
+- (void)removeChildren:(NSString*)tag inNamespace:(NSString*)ns {
+    NSArray* children = [self children:tag inNamespace:ns];
+    [children enumerateObjectsUsingBlock:^(RXMLElement* elem, NSUInteger idx, BOOL *stop) {
+        xmlUnlinkNode(elem->node_);
+    }];
+}
 
 #pragma mark -
 
@@ -411,7 +435,8 @@
     xmlNodePtr cur = node_->children;
 
     while (cur != nil) {
-        if (cur->type == XML_ELEMENT_NODE && !xmlStrcmp(cur->name, tagC)) {
+        if (cur->type == XML_ELEMENT_NODE &&
+            ([tag isEqualToString:@"*"] || !xmlStrcmp(cur->name, tagC))) {
             [children addObject:[RXMLElement elementFromXMLDoc:self.xmlDoc node:cur]];
         }
         
@@ -428,7 +453,8 @@
     xmlNodePtr cur = node_->children;
     
     while (cur != nil) {
-        if (cur->type == XML_ELEMENT_NODE && !xmlStrcmp(cur->name, tagC) && !xmlStrcmp(cur->ns->href, namespaceC)) {
+        if (cur->type == XML_ELEMENT_NODE &&
+            ([tag isEqualToString:@"*"] || (!xmlStrcmp(cur->name, tagC) && !xmlStrcmp(cur->ns->href, namespaceC)))) {
             [children addObject:[RXMLElement elementFromXMLDoc:self.xmlDoc node:cur]];
         }
         
