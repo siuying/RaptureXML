@@ -260,6 +260,10 @@
     return ret;
 }
 
+- (id)objectForKeyedSubscript:(id)key {
+    return [self attribute:key];
+}
+
 - (NSString *)attribute:(NSString *)attName inNamespace:(NSString *)ns {
     const unsigned char *attCStr = xmlGetNsProp(node_, (const xmlChar *)[attName cStringUsingEncoding:NSUTF8StringEncoding], (const xmlChar *)[ns cStringUsingEncoding:NSUTF8StringEncoding]);
 

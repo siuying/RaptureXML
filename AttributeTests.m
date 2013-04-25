@@ -31,13 +31,21 @@
     STAssertEquals(atts.count, 2U, nil);
     STAssertTrue([atts containsObject:@"count"], nil);
     STAssertTrue([atts containsObject:@"style"], nil);
-
+    
     RXMLElement *squarexml = [rxml child:@"square"];
     atts = [squarexml attributeNames];
     STAssertEquals(atts.count, 3U, nil);
     STAssertTrue([atts containsObject:@"name"], nil);
     STAssertTrue([atts containsObject:@"id"], nil);
     STAssertTrue([atts containsObject:@"sideLength"], nil);
+}
+
+- (void)testSubscript {
+    RXMLElement *rxml = [RXMLElement elementFromXMLString:attributedXML_ encoding:NSUTF8StringEncoding];
+    NSArray *atts = [rxml attributeNames];
+    STAssertEquals(atts.count, 2U, nil);
+    STAssertEqualObjects(rxml[@"count"], @"3", nil);
+    STAssertEqualObjects(rxml[@"style"], @"basic", nil);
 }
 
 @end

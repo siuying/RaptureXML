@@ -108,5 +108,9 @@
 
 @end
 
+@interface RXMLElement (Subscripts)
+- (id)objectForKeyedSubscript:(id)key;
+@end
+
 typedef void (^RXMLBlock)(RXMLElement *element);
 
