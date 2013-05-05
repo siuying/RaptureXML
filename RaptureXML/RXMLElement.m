@@ -66,6 +66,11 @@
     return element;
 }
 
+- (void) removeCachedNode:(xmlNodePtr)node {
+    NSString* key = [NSString stringWithFormat:@"node.%x", (int) node];
+    [nodes_ removeObjectForKey:key];
+}
+
 @end
 
 @implementation RXMLElement
@@ -365,6 +370,7 @@
     NSArray* children = [self children:tag];
     [children enumerateObjectsUsingBlock:^(RXMLElement* elem, NSUInteger idx, BOOL *stop) {
         xmlUnlinkNode(elem->node_);
+        [self.xmlDoc removeCachedNode:elem->node_];
     }];
 }
 
@@ -372,11 +378,13 @@
     NSArray* children = [self children:tag inNamespace:ns];
     [children enumerateObjectsUsingBlock:^(RXMLElement* elem, NSUInteger idx, BOOL *stop) {
         xmlUnlinkNode(elem->node_);
+        [self.xmlDoc removeCachedNode:elem->node_];
     }];
 }
 
 - (void)remove {
     xmlUnlinkNode(node_);
+    [self.xmlDoc removeCachedNode:node_];
 }
 
 #pragma mark -
