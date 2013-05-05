@@ -49,4 +49,15 @@
     STAssertEquals(i, 1, nil);
 }
 
+- (void) testCommonParent {
+    RXMLElement *rxml = [RXMLElement elementFromXMLFile:@"players.xml"];
+    
+    NSArray* players = [rxml childrenWithRootXPath:@"//player"];
+    STAssertEquals(9U, players.count, nil);
+    
+    RXMLElement* parent1 = ((RXMLElement*) players[0]).parent;
+    RXMLElement* parent2 = ((RXMLElement*) players[1]).parent;
+    STAssertEquals(parent1, parent2, @"should return same object");
+}
+
 @end
