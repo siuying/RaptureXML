@@ -352,6 +352,10 @@
     }];
 }
 
+- (void)remove {
+    xmlUnlinkNode(node_);
+}
+
 #pragma mark -
 
 - (RXMLElement *)child:(NSString *)tag {

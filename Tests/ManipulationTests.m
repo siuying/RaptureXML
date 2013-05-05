@@ -66,6 +66,15 @@
     STAssertEqualObjects([doc_ xml], @"<shapes/>", nil);
 }
 
+-(void) testRemove {
+    RXMLElement* xml = [RXMLElement elementFromXMLString:@"<shapes><triangle><edge/><edge/><edge/></triangle><square><edge/><edge/><edge/><edge/></square><triangle><edge/><edge/><edge/></triangle></shapes>"
+                                                     encoding:NSUTF8StringEncoding];
+    [xml iterateWithRootXPath:@"//triangle" usingBlock:^(RXMLElement* elem) {
+        [elem remove];
+    }];
+
+    STAssertEqualObjects([xml xml], @"<shapes><square><edge/><edge/><edge/><edge/></square></shapes>", nil);
+}
 
 -(void) testRemoveChild {
     doc_ = [RXMLElement elementFromXMLString:XMLWithChild_ encoding:NSUTF8StringEncoding];

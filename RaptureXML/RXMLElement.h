@@ -110,6 +110,11 @@
  */
 - (void)removeChildren:(NSString*)tag inNamespace:(NSString*)ns;
 
+/**
+ remove current node and all children
+ */
+- (void)remove;
+
 - (RXMLElement *)child:(NSString *)tag;
 - (RXMLElement *)child:(NSString *)tag inNamespace:(NSString *)ns;
 
