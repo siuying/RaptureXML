@@ -139,6 +139,9 @@
 
 - (id)initFromHTMLData:(NSData *)data {
     if ((self = [super init])) {
+        // ignore whitespaces
+        xmlKeepBlanksDefault(false);
+
         xmlDocPtr doc = htmlReadMemory([data bytes], (int)[data length], "", nil, HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
         self.xmlDoc = [[RXMLDocHolder alloc] initWithDocPtr:doc];
         
@@ -534,6 +537,24 @@
         return nil;
     } else {
         return [self.xmlDoc cachedElementWithNode:parent];
+    }
+}
+
+- (RXMLElement *) nextSibling {
+    xmlNodePtr sibling = node_->next;
+    if (!sibling) {
+        return nil;
+    } else {
+        return [self.xmlDoc cachedElementWithNode:sibling];
+    }
+}
+
+- (RXMLElement *) previousSibling {
+    xmlNodePtr sibling = node_->prev;
+    if (!sibling) {
+        return nil;
+    } else {
+        return [self.xmlDoc cachedElementWithNode:sibling];
     }
 }
 

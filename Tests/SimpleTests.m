@@ -131,4 +131,11 @@
     STAssertEquals(circleGrandparent, circleGrandparent2, @"get parent again should return same object");
 }
 
+-(void) testPrevNext {
+    RXMLElement *rxml = [RXMLElement elementFromXMLString:simplifiedXML_ encoding:NSUTF8StringEncoding];
+    RXMLElement *triangle = [rxml child:@"triangle"];
+    STAssertEqualObjects(triangle.nextSibling.tag, @"circle", nil);
+    STAssertEqualObjects(triangle.previousSibling.tag, @"square", nil);
+}
+
 @end

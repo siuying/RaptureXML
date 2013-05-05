@@ -125,6 +125,8 @@
 - (NSArray *)childrenWithRootXPath:(NSString *)xpath;
 
 - (RXMLElement *) parent;
+- (RXMLElement *) nextSibling;
+- (RXMLElement *) previousSibling;
 
 - (void)iterate:(NSString *)query usingBlock:(void (^)(RXMLElement *))blk;
 - (void)iterateWithRootXPath:(NSString *)xpath usingBlock:(void (^)(RXMLElement *))blk;
