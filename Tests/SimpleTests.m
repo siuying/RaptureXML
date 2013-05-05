@@ -112,4 +112,19 @@
     STAssertEqualObjects(cdata.innerXml, @"<![CDATA[thisiscdata]]>", nil);
 }
 
+-(void) testParent {
+    treeXML_ = @"<data>\
+    <shapes><circle>Circle</circle></shapes>\
+    <colors>TEST<rgb code=\"0,0,0\">Black<annotation>default color</annotation></rgb></colors>\
+</data>";
+
+    RXMLElement *rxml = [RXMLElement elementFromXMLString:treeXML_ encoding:NSUTF8StringEncoding];
+    NSArray* circles = [rxml childrenWithRootXPath:@"//circle"];
+    RXMLElement* circle = [circles objectAtIndex:0];
+    RXMLElement* circleParent = circle.parent;
+    STAssertEqualObjects(circleParent.tag, @"shapes", nil);
+    RXMLElement* circleGrandparent = circleParent.parent;
+    STAssertEqualObjects(circleGrandparent.tag, @"data", nil);
+}
+
 @end

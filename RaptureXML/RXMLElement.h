@@ -122,6 +122,8 @@
 - (NSArray *)children:(NSString *)tag inNamespace:(NSString *)ns;
 - (NSArray *)childrenWithRootXPath:(NSString *)xpath;
 
+- (RXMLElement *) parent;
+
 - (void)iterate:(NSString *)query usingBlock:(void (^)(RXMLElement *))blk;
 - (void)iterateWithRootXPath:(NSString *)xpath usingBlock:(void (^)(RXMLElement *))blk;
 - (void)iterateElements:(NSArray *)elements usingBlock:(void (^)(RXMLElement *))blk;

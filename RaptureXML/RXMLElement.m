@@ -510,6 +510,17 @@
     return resultNodes;
 }
 
+#pragma mark - 
+
+- (RXMLElement *) parent {
+    xmlNodePtr parent = node_->parent;
+    if (!parent) {
+        return nil;
+    } else {
+        return [RXMLElement elementFromXMLDoc:self.xmlDoc node:parent];
+    }
+}
+
 #pragma mark -
 
 - (void)iterate:(NSString *)query usingBlock:(void (^)(RXMLElement *))blk {
