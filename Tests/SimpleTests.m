@@ -122,9 +122,13 @@
     NSArray* circles = [rxml childrenWithRootXPath:@"//circle"];
     RXMLElement* circle = [circles objectAtIndex:0];
     RXMLElement* circleParent = circle.parent;
-    STAssertEqualObjects(circleParent.tag, @"shapes", nil);
+    STAssertEqualObjects(circleParent.tag, @"shapes", @"get parent");
+
     RXMLElement* circleGrandparent = circleParent.parent;
-    STAssertEqualObjects(circleGrandparent.tag, @"data", nil);
+    STAssertEqualObjects(circleGrandparent.tag, @"data", @"get parent of parent");
+
+    RXMLElement* circleGrandparent2 = circleParent.parent;
+    STAssertEquals(circleGrandparent, circleGrandparent2, @"get parent again should return same object");
 }
 
 @end

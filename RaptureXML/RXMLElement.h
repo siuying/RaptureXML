@@ -37,10 +37,12 @@
 
 @interface RXMLDocHolder : NSObject {
     xmlDocPtr doc_;
+    NSMutableDictionary* nodes_;
 }
 
 - (id)initWithDocPtr:(xmlDocPtr)doc;
 - (xmlDocPtr)doc;
+- (NSMutableDictionary*)nodes;
 
 @end
 
