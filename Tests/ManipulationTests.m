@@ -87,5 +87,10 @@
     STAssertEqualObjects([doc_ xml], @"<shapes/>", @"remove child based on *");
 }
 
+-(void) testUpdateTagName {
+    doc_ = [RXMLElement elementFromXMLString:@"<shapes><triangle name=\"Triangle\"/></shapes>" encoding:NSUTF8StringEncoding];
+    [doc_ setTag:@"polygon"];
+    STAssertEqualObjects(doc_.xml, @"<polygon><triangle name=\"Triangle\"/></polygon>", nil);
+}
 
 @end

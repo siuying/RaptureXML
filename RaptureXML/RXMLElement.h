@@ -127,13 +127,23 @@
 - (void)iterateElements:(NSArray *)elements usingBlock:(void (^)(RXMLElement *))blk;
 
 @property (nonatomic, strong) RXMLDocHolder *xmlDoc;
-@property (nonatomic, readonly) NSString *tag;
 @property (nonatomic, readonly) NSString *text;
 @property (nonatomic, readonly) NSString *xml;
 @property (nonatomic, readonly) NSString *innerXml;
 @property (nonatomic, readonly) NSInteger textAsInt;
 @property (nonatomic, readonly) double textAsDouble;
 @property (nonatomic, readonly) BOOL isValid;
+
+/**
+ tag of the element
+ */
+-(NSString*) tag;
+
+/**
+ update tag of element
+ @param tag - new tag name
+ */
+-(void) setTag:(NSString*)tag;
 
 @end
 

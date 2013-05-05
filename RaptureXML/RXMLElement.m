@@ -201,6 +201,10 @@
     return [NSString stringWithUTF8String:(const char *)node_->name];
 }
 
+- (void) setTag:(NSString *)tag {
+    xmlNodeSetName(node_, (xmlChar*) [tag cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
 - (NSString *)text {
     xmlChar *key = xmlNodeGetContent(node_);
     NSString *text = (key ? [NSString stringWithUTF8String:(const char *)key] : @"");
