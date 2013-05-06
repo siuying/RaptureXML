@@ -26,39 +26,37 @@
     doc_ = [RXMLElement elementFromXMLString:XML_ encoding:NSUTF8StringEncoding];
 }
 
--(void) testAppend {
+-(void) testAddChild {
     RXMLElement* pentagon = [RXMLElement elementFromXMLString:@"<pentagon name=\"Pentagon\" />"
-                                                    encoding:NSUTF8StringEncoding];
-    [doc_ append:pentagon];
-    STAssertEqualObjects([doc_ xml], @"<shapes><square name=\"Square\"/><pentagon name=\"Pentagon\"/></shapes>", nil);
-
-    RXMLElement* edge = [RXMLElement elementFromXMLString:@"<edge index=\"1\"/>"
-                                                 encoding:NSUTF8StringEncoding];
-    [pentagon append:edge];
-    STAssertEqualObjects([doc_ xml], @"<shapes><square name=\"Square\"/><pentagon name=\"Pentagon\"><edge index=\"1\"/></pentagon></shapes>", nil);
-    
-    RXMLElement* edge2 = [RXMLElement elementFromXMLString:@"<edge index=\"2\"/>"
-                                                  encoding:NSUTF8StringEncoding];
-    [pentagon append:edge2];
-    STAssertEqualObjects([doc_ xml], @"<shapes><square name=\"Square\"/><pentagon name=\"Pentagon\"><edge index=\"1\"/><edge index=\"2\"/></pentagon></shapes>", nil);
+                                                     encoding:NSUTF8StringEncoding];
+    RXMLElement* child = [RXMLElement elementFromXMLString:@"<square name=\"Square\"/>"
+                                                     encoding:NSUTF8StringEncoding];
+    [pentagon addChild:child];
+    STAssertEqualObjects([pentagon xml], @"<pentagon name=\"Pentagon\"><square name=\"Square\"/></pentagon>", nil);
 }
 
--(void) testPrepend {
-    RXMLElement* pentagon = [RXMLElement elementFromXMLString:@"<pentagon name=\"Pentagon\" />"
-                                                    encoding:NSUTF8StringEncoding];
-    [doc_ prepend:pentagon];
-
-    STAssertEqualObjects([doc_ xml], @"<shapes><pentagon name=\"Pentagon\"/><square name=\"Square\"/></shapes>", nil);
+-(void) testNextSibling {
+    RXMLElement* pentagon = [RXMLElement elementFromXMLString:@"<pentagon name=\"Pentagon\"><edge id=\"edge-1\"/><edge id=\"edge-2\"/><edge id=\"edge-3\"/><edge id=\"edge-4\"/></pentagon>"
+                                                     encoding:NSUTF8StringEncoding];
+    RXMLElement* edge5 = [RXMLElement elementFromXMLString:@"<edge id=\"edge-5\"/>"
+                                                  encoding:NSUTF8StringEncoding];
     
-    RXMLElement* edge = [RXMLElement elementFromXMLString:@"<edge index=\"1\"/>"
-                                                 encoding:NSUTF8StringEncoding];
-    [pentagon prepend:edge];
-    STAssertEqualObjects([doc_ xml], @"<shapes><pentagon name=\"Pentagon\"><edge index=\"1\"/></pentagon><square name=\"Square\"/></shapes>", nil);
+    RXMLElement* edge4 = [pentagon childrenWithRootXPath:@"//*[@id='edge-4']"][0];
+    [edge4 addNextSibling:edge5];
+    
+    STAssertEqualObjects([pentagon xml], @"<pentagon name=\"Pentagon\"><edge id=\"edge-1\"/><edge id=\"edge-2\"/><edge id=\"edge-3\"/><edge id=\"edge-4\"/><edge id=\"edge-5\"/></pentagon>", nil);
+}
 
-    RXMLElement* edge2 = [RXMLElement elementFromXMLString:@"<edge index=\"2\"/>"
-                                                 encoding:NSUTF8StringEncoding];
-    [pentagon prepend:edge2];
-    STAssertEqualObjects([doc_ xml], @"<shapes><pentagon name=\"Pentagon\"><edge index=\"2\"/><edge index=\"1\"/></pentagon><square name=\"Square\"/></shapes>", nil);
+-(void) testPreviousSibling {
+    RXMLElement* pentagon = [RXMLElement elementFromXMLString:@"<pentagon name=\"Pentagon\"><edge id=\"edge-1\"/><edge id=\"edge-2\"/><edge id=\"edge-3\"/><edge id=\"edge-5\"/></pentagon>"
+                                                     encoding:NSUTF8StringEncoding];
+    RXMLElement* edge4 = [RXMLElement elementFromXMLString:@"<edge id=\"edge-4\"/>"
+                                                  encoding:NSUTF8StringEncoding];
+
+    RXMLElement* edge5 = [pentagon childrenWithRootXPath:@"//*[@id='edge-5']"][0];
+    [edge5 addPreviousSibling:edge4];
+    
+    STAssertEqualObjects([pentagon xml], @"<pentagon name=\"Pentagon\"><edge id=\"edge-1\"/><edge id=\"edge-2\"/><edge id=\"edge-3\"/><edge id=\"edge-4\"/><edge id=\"edge-5\"/></pentagon>", nil);
 }
 
 -(void) testEmpty {
@@ -68,7 +66,8 @@
 
 -(void) testRemove {
     RXMLElement* xml = [RXMLElement elementFromXMLString:@"<shapes><triangle><edge/><edge/><edge/></triangle><square><edge/><edge/><edge/><edge/></square><triangle><edge/><edge/><edge/></triangle></shapes>"
-                                                     encoding:NSUTF8StringEncoding];
+                                                encoding:NSUTF8StringEncoding];
+
     [xml iterateWithRootXPath:@"//triangle" usingBlock:^(RXMLElement* elem) {
         [elem remove];
     }];

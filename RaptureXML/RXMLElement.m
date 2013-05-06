@@ -335,24 +335,54 @@
 #pragma mark -
 
 - (RXMLElement*)append:(RXMLElement*)child {
-    xmlAddChild(node_, child->node_);
-    return child;
+    NSAssert(child->node_, @"target node cannot be nil");
+
+    xmlNodePtr newNode = xmlDocCopyNode(child->node_, self.xmlDoc.doc, 1);
+    NSAssert(newNode, @"cannot copy node");
+
+    xmlAddChild(node_, newNode);
+    return [self.xmlDoc cachedElementWithNode:newNode];
 }
 
 - (RXMLElement*)prepend:(RXMLElement*)child {
+    NSAssert(child->node_, @"target node cannot be nil");
+
     xmlNodePtr cur = node_;
     cur = cur->children;
 
     while (cur != nil && cur->type != XML_ELEMENT_NODE) {
         cur = cur->next;
     }
-    
+
+    xmlNodePtr newNode = xmlDocCopyNode(child->node_, self.xmlDoc.doc, 1) ;
     if (cur) {
-        xmlAddPrevSibling(cur, child->node_);
+        xmlAddPrevSibling(cur, newNode);
     } else {
-        xmlAddChild(node_, child->node_);
+        xmlAddChild(node_, newNode);
     }
-    return child;
+
+    return [self.xmlDoc cachedElementWithNode:newNode];
+}
+
+- (RXMLElement*)addChild:(RXMLElement*)child {
+    NSAssert(child->node_, @"target node cannot be nil");
+    xmlNodePtr newNode = xmlDocCopyNode(child->node_, self.xmlDoc.doc, 1);
+    xmlAddChild(node_, newNode);
+    return [self.xmlDoc cachedElementWithNode:newNode];
+}
+
+- (RXMLElement*)addNextSibling:(RXMLElement*)child {
+    NSAssert(child->node_, @"target node cannot be nil");
+    xmlNodePtr newNode = xmlDocCopyNode(child->node_, self.xmlDoc.doc, 1) ;
+    xmlAddNextSibling(node_, newNode);
+    return [self.xmlDoc cachedElementWithNode:newNode];
+}
+
+- (RXMLElement*)addPreviousSibling:(RXMLElement*)child {
+    NSAssert(child->node_, @"target node cannot be nil");
+    xmlNodePtr newNode = xmlDocCopyNode(child->node_, self.xmlDoc.doc, 1) ;
+    xmlAddPrevSibling(node_, newNode);
+    return [self.xmlDoc cachedElementWithNode:newNode];
 }
 
 - (void) empty {

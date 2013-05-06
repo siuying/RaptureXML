@@ -91,8 +91,9 @@
 - (double)attributeAsDouble:(NSString *)attributeName;
 - (double)attributeAsDouble:(NSString *)attributeName inNamespace:(NSString *)ns;
 
-- (RXMLElement*)append:(RXMLElement*)child;
-- (RXMLElement*)prepend:(RXMLElement*)child;
+- (RXMLElement*)addChild:(RXMLElement*)child;
+- (RXMLElement*)addNextSibling:(RXMLElement*)child;
+- (RXMLElement*)addPreviousSibling:(RXMLElement*)child;
 
 /**
  remove all children nodes
