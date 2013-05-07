@@ -63,6 +63,7 @@
 - (id)initFromHTMLFile:(NSString *)filename fileExtension:(NSString*)extension;
 - (id)initFromHTMLFilePath:(NSString *)fullPath;
 - (id)initFromHTMLData:(NSData *)data;
+- (id)initFromHTMLData:(NSData *)data forceEncoding:(NSString*)encoding options:(htmlParserOption)options;
 
 + (id)elementFromXMLString:(NSString *)xmlString encoding:(NSStringEncoding)encoding;
 + (id)elementFromXMLFile:(NSString *)filename;
@@ -76,6 +77,7 @@
 + (id)elementFromHTMLFile:(NSString *)filename fileExtension:(NSString*)extension;
 + (id)elementFromHTMLFilePath:(NSString *)fullPath;
 + (id)elementFromHTMLData:(NSData *)data;
++ (id)elementFromHTMLData:(NSData *)data forceEncoding:(NSString*)encoding options:(htmlParserOption)options;
 
 - (NSString *)attribute:(NSString *)attributeName;
 - (NSString *)attribute:(NSString *)attributeName inNamespace:(NSString *)ns;

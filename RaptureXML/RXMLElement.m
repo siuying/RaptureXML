@@ -143,11 +143,15 @@
 }
 
 - (id)initFromHTMLData:(NSData *)data {
+    return [self initFromHTMLData:data forceEncoding:nil options:(HTML_PARSE_RECOVER | HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR)];
+}
+
+- (id)initFromHTMLData:(NSData *)data forceEncoding:(NSString*)encoding options:(htmlParserOption)options {
     if ((self = [super init])) {
         // ignore whitespaces
         xmlKeepBlanksDefault(false);
-
-        xmlDocPtr doc = htmlReadMemory([data bytes], (int)[data length], "", nil, HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
+        
+        xmlDocPtr doc = htmlReadMemory([data bytes], (int)[data length], "", [encoding UTF8String], options);
         self.xmlDoc = [[RXMLDocHolder alloc] initWithDocPtr:doc];
         
         if ([self isValid]) {
@@ -217,6 +221,10 @@
 
 + (id)elementFromHTMLData:(NSData *)data {
     return [[RXMLElement alloc] initFromHTMLData:data];
+}
+
++ (id)elementFromHTMLData:(NSData *)data forceEncoding:(NSString*)encoding options:(htmlParserOption)options {
+    return [[RXMLElement alloc] initFromHTMLData:data forceEncoding:encoding options:options];
 }
 
 #pragma mark -
