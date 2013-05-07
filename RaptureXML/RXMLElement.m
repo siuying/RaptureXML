@@ -230,7 +230,11 @@
 #pragma mark -
 
 - (NSString *)tag {
-    return [NSString stringWithUTF8String:(const char *)node_->name];
+    if (node_->name) {
+        return [NSString stringWithUTF8String:(const char *)node_->name];
+    } else {
+        return nil;
+    }
 }
 
 - (void) setTag:(NSString *)tag {
@@ -241,7 +245,6 @@
     xmlChar *key = xmlNodeGetContent(node_);
     NSString *text = (key ? [NSString stringWithUTF8String:(const char *)key] : @"");
     xmlFree(key);
-
     return text;
 }
 
