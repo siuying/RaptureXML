@@ -32,10 +32,12 @@
 
 @implementation RXMLDocHolder
 
+@synthesize nodes = nodes_;
+
 - (id)initWithDocPtr:(xmlDocPtr)doc {
     if ((self = [super init])) {
         doc_ = doc;
-        nodes_ = [NSMutableDictionary dictionary];
+        nodes_ = [[NSCache alloc] init];
     }
 
     return self;
@@ -50,10 +52,6 @@
 
 - (xmlDocPtr)doc {
     return doc_;
-}
-
-- (NSMutableDictionary*) nodes {
-    return nodes_;
 }
 
 - (RXMLElement*) cachedElementWithNode:(xmlNodePtr)node {
