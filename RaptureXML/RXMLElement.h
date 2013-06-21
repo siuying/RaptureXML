@@ -39,7 +39,7 @@
     xmlDocPtr doc_;
 }
 
-@property (strong, nonatomic) NSCache* nodes;
+@property (strong, nonatomic) NSMapTable* nodes;
 
 - (id)initWithDocPtr:(xmlDocPtr)doc;
 - (xmlDocPtr)doc;

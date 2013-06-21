@@ -37,7 +37,9 @@
 - (id)initWithDocPtr:(xmlDocPtr)doc {
     if ((self = [super init])) {
         doc_ = doc;
-        nodes_ = [[NSCache alloc] init];
+        nodes_ = [[NSMapTable alloc] initWithKeyOptions:NSMapTableCopyIn
+                                           valueOptions:NSMapTableWeakMemory
+                                               capacity:100];
     }
 
     return self;
@@ -55,7 +57,7 @@
 }
 
 - (RXMLElement*) cachedElementWithNode:(xmlNodePtr)node {
-    NSString* key = [NSString stringWithFormat:@"node.%x", (int) node];
+    NSNumber* key = @((int) node);
     RXMLElement* element = [nodes_ objectForKey:key];
     if (!element) {
         element = [[RXMLElement alloc] initFromXMLDoc:self node:node];
@@ -65,7 +67,7 @@
 }
 
 - (void) removeCachedNode:(xmlNodePtr)node {
-    NSString* key = [NSString stringWithFormat:@"node.%x", (int) node];
+    NSNumber* key = @((int) node);
     [nodes_ removeObjectForKey:key];
 }
 
